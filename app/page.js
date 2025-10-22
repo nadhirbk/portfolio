@@ -334,7 +334,7 @@ export default function Portfolio() {
                   }`}
                 >
                   Design system, prototypage, et recherche utilisateur pour
-                  créer des expériences mémorables et centrées sur l'humain.
+                  créer des expériences mémorables et centrées sur l&apos;humain.
                 </p>
                 <button
                   className={`group inline-flex items-center gap-2 px-8 py-4 text-white rounded-2xl transition-all hover:gap-4 duration-700 ${
@@ -492,13 +492,11 @@ export default function Portfolio() {
               {/* Colonne droite : Contenu */}
               <div className="space-y-8">
                 <div>
-                  <h2
-                    className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
-                      isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
-                    }`}
-                  >
-                    Hello, moi c'est Nadhir 👋🏼
-                  </h2>
+                                    }`}
+                >
+                  <p className="text-lg leading-relaxed">
+                    Hello, moi c&apos;est Nadhir 👋🏼
+                  </p>
                   <div
                     className={`w-20 h-1 bg-gradient-to-r rounded-full transition-all duration-700 ${
                       isDarkMode
@@ -515,7 +513,7 @@ export default function Portfolio() {
                     }`}
                   >
                     Je suis un jeune développeur web passionné par la création
-                    d'expériences digitales qui allient{" "}
+                    d&apos;expériences digitales qui allient{" "}
                     <span
                       className={`font-semibold transition-colors duration-700 ${
                         isDarkMode ? "text-[#5B7AA6]" : "text-[#3B4A6B]"
@@ -538,10 +536,10 @@ export default function Portfolio() {
                       isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                     }`}
                   >
-                    Actuellement en recherche d'alternance en UI/UX Design pour
+                    Actuellement en recherche d&apos;alternance en UI/UX Design pour
                     janvier/février 2026, je continue de développer des sites
                     web pour mes clients tout en approfondissant mes compétences
-                    en design d'interface.
+                    en design d&apos;interface.
                   </p>
                 </div>
 
