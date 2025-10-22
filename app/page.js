@@ -334,7 +334,8 @@ export default function Portfolio() {
                   }`}
                 >
                   Design system, prototypage, et recherche utilisateur pour
-                  créer des expériences mémorables et centrées sur l&apos;humain.
+                  créer des expériences mémorables et centrées sur
+                  l&apos;humain.
                 </p>
                 <button
                   className={`group inline-flex items-center gap-2 px-8 py-4 text-white rounded-2xl transition-all hover:gap-4 duration-700 ${
@@ -492,8 +493,6 @@ export default function Portfolio() {
               {/* Colonne droite : Contenu */}
               <div className="space-y-8">
                 <div>
-                                    }`}
-                >
                   <p className="text-lg leading-relaxed">
                     Hello, moi c&apos;est Nadhir 👋🏼
                   </p>
@@ -536,10 +535,10 @@ export default function Portfolio() {
                       isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                     }`}
                   >
-                    Actuellement en recherche d&apos;alternance en UI/UX Design pour
-                    janvier/février 2026, je continue de développer des sites
-                    web pour mes clients tout en approfondissant mes compétences
-                    en design d&apos;interface.
+                    Actuellement en recherche d&apos;alternance en UI/UX Design
+                    pour janvier/février 2026, je continue de développer des
+                    sites web pour mes clients tout en approfondissant mes
+                    compétences en design d&apos;interface.
                   </p>
                 </div>
 
