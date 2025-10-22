@@ -493,13 +493,13 @@ export default function Portfolio() {
               {/* Colonne droite : Contenu */}
               <div className="space-y-8">
                 <div>
-                  <p
-                    className={`text-lg leading-relaxed transition-colors duration-700 ${
+                  <h2
+                    className={`text-5xl font-bold mb-4 transition-colors duration-700 ${
                       isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
                     }`}
                   >
                     Hello, moi c&apos;est Nadhir 👋🏼
-                  </p>
+                  </h2>
                   <div
                     className={`w-20 h-1 bg-gradient-to-r rounded-full transition-all duration-700 ${
                       isDarkMode
