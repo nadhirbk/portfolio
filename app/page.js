@@ -758,7 +758,7 @@ export default function Portfolio() {
         >
           <div className="max-w-7xl mx-auto px-6">
             {/* Titre */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-8 mt-4">
               <h2
                 className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
                   isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
