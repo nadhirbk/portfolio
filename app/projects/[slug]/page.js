@@ -54,10 +54,10 @@ export default function ProjectPage({ params }) {
           {/* Toggle Dark Mode */}
           <button
             onClick={() => setIsDarkMode(!isDarkMode)}
-            className={`px-6 py-2 rounded-full transition-all duration-700 cursor-pointer ${
+            className={`px-6 py-2 rounded-full transition-all duration-700 cursor-pointer hover:scale-110 hover:shadow-lg ${
               isDarkMode
-                ? "bg-[#F5F1E8] text-[#0F0F0F]"
-                : "bg-[#2A2A2A] text-[#F5F1E8]"
+                ? "bg-[#F5F1E8] text-[#0F0F0F] hover:shadow-[#F5F1E8]/50"
+                : "bg-[#2A2A2A] text-[#F5F1E8] hover:shadow-[#2A2A2A]/50"
             }`}
           >
             {isDarkMode ? "☀️" : "🌙"}
