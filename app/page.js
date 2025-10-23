@@ -72,11 +72,22 @@ export default function Portfolio() {
 
   // Charger le thème depuis localStorage au démarrage
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setIsDarkMode(true);
-    } else if (savedTheme === "light") {
-      setIsDarkMode(false);
+    // On ne prend le localStorage que si l'utilisateur a déjà interagi (toggle ou hover)
+    const userHasChosenTheme = localStorage.getItem("theme-chosen") === "true";
+    if (userHasChosenTheme) {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        setIsDarkMode(true);
+      } else if (savedTheme === "light") {
+        setIsDarkMode(false);
+      }
+    } else {
+      // Toujours prioriser le thème système au premier chargement
+      const prefersDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setIsDarkMode(prefersDark);
+      localStorage.setItem("theme", prefersDark ? "dark" : "light");
     }
   }, []);
 
@@ -84,6 +95,7 @@ export default function Portfolio() {
   useEffect(() => {
     if (!isHoveringHero) {
       localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+      localStorage.setItem("theme-chosen", "true");
     }
   }, [isDarkMode, isHoveringHero]);
 
