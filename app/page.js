@@ -780,7 +780,7 @@ export default function Portfolio() {
             <div className="flex justify-center gap-4 mb-8">
               <button
                 onClick={() => setProjectFilter("all")}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium ${
+                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium cursor-pointer ${
                   projectFilter === "all"
                     ? isDarkMode
                       ? "bg-[#5B7AA6] text-white"
@@ -794,7 +794,7 @@ export default function Portfolio() {
               </button>
               <button
                 onClick={() => setProjectFilter("dev")}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium ${
+                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium cursor-pointer ${
                   projectFilter === "dev"
                     ? isDarkMode
                       ? "bg-[#5B7AA6] text-white"
@@ -808,7 +808,7 @@ export default function Portfolio() {
               </button>
               <button
                 onClick={() => setProjectFilter("design")}
-                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium ${
+                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium cursor-pointer ${
                   projectFilter === "design"
                     ? isDarkMode
                       ? "bg-[#766B5E] text-white"
