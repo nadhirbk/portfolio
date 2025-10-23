@@ -24,6 +24,7 @@ export default function Portfolio() {
   const carouselRef = useRef(null);
   const [showLeftGradient, setShowLeftGradient] = useState(false);
   const [showRightGradient, setShowRightGradient] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // États pour le formulaire
   const [formData, setFormData] = useState({
@@ -204,7 +205,7 @@ export default function Portfolio() {
             : "transparent",
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center">
           <a
             href="#"
             onClick={(e) => {
@@ -219,7 +220,8 @@ export default function Portfolio() {
           >
             NADHIR
           </a>
-          <div className="flex gap-6 items-center">
+          {/* Liens desktop */}
+          <div className="hidden md:flex gap-6 items-center">
             <a
               href="#about"
               className={`transition-colors duration-700 ${
@@ -251,7 +253,56 @@ export default function Portfolio() {
               Contact
             </a>
           </div>
+          {/* Menu burger mobile */}
+          <button
+            className="md:hidden flex items-center p-2 rounded focus:outline-none focus:ring-2 focus:ring-[#5B7AA6]"
+            aria-label="Ouvrir le menu"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <svg
+              width="28"
+              height="28"
+              fill="none"
+              stroke={isDarkMode ? "#F5F1E8" : "#2A2A2A"}
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
         </div>
+        {/* Menu mobile */}
+        {isMenuOpen && (
+          <div
+            className={`md:hidden absolute top-full left-0 w-full bg-white dark:bg-[#1A1A1A] shadow-lg z-50 animate-fade-in`}
+          >
+            <a
+              href="#about"
+              className="block px-8 py-4 border-b border-[#EDE4D3] dark:border-[#2A2A2A] text-lg font-medium transition-colors duration-300 hover:bg-[#F5F1E8] dark:hover:bg-[#2A2A2A]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              À propos
+            </a>
+            <a
+              href="#projects"
+              className="block px-8 py-4 border-b border-[#EDE4D3] dark:border-[#2A2A2A] text-lg font-medium transition-colors duration-300 hover:bg-[#F5F1E8] dark:hover:bg-[#2A2A2A]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Projets
+            </a>
+            <a
+              href="#contact"
+              className="block px-8 py-4 text-lg font-medium transition-colors duration-300 hover:bg-[#F5F1E8] dark:hover:bg-[#2A2A2A]"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </a>
+          </div>
+        )}
       </nav>
       {/* Hero Section with Split Effect - Sticky for parallax */}
       <section
@@ -284,14 +335,14 @@ export default function Portfolio() {
         {/* Content Container */}
         <div className="relative h-full flex items-center justify-center">
           <div className="max-w-7xl mx-auto px-6 w-full">
-            <div className="grid grid-cols-2 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {/* Dev Side */}
               <div
                 className={`text-left transition-all duration-500 ${
                   isDevSide
                     ? "opacity-100 translate-x-0"
                     : "opacity-40 -translate-x-4"
-                }`}
+                } mb-12 md:mb-0 pt-32 md:pt-0 text-center md:text-left flex flex-col items-center md:items-start`}
               >
                 <div
                   className={`inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full mb-6 border transition-all duration-700 ${
@@ -315,9 +366,9 @@ export default function Portfolio() {
                   </span>
                 </div>
                 <h1
-                  className={`text-6xl font-bold mb-6 leading-tight transition-colors duration-700 ${
+                  className={`text-4xl md:text-6xl font-bold mb-6 leading-tight transition-colors duration-700 ${
                     isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
-                  }`}
+                  } text-center md:text-left`}
                 >
                   Je crée des
                   <br />
@@ -332,9 +383,9 @@ export default function Portfolio() {
                   performantes
                 </h1>
                 <p
-                  className={`text-lg mb-8 leading-relaxed transition-colors duration-700 ${
+                  className={`text-base md:text-lg mb-8 leading-relaxed transition-colors duration-700 ${
                     isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
-                  }`}
+                  } text-center md:text-left`}
                 >
                   React, Next.js, et technologies modernes pour transformer vos
                   idées en applications web robustes et élégantes.
@@ -381,7 +432,7 @@ export default function Portfolio() {
                   </span>
                 </div>
                 <h1
-                  className={`text-6xl font-bold mb-6 leading-tight transition-colors duration-700 ${
+                  className={`text-4xl md:text-6xl font-bold mb-6 leading-tight transition-colors duration-700 ${
                     isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
                   }`}
                 >
@@ -398,7 +449,7 @@ export default function Portfolio() {
                   intuitives
                 </h1>
                 <p
-                  className={`text-lg mb-8 leading-relaxed transition-colors duration-700 ${
+                  className={`text-base md:text-lg mb-8 leading-relaxed transition-colors duration-700 ${
                     isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                   }`}
                 >
@@ -563,7 +614,7 @@ export default function Portfolio() {
               <div className="space-y-8">
                 <div>
                   <h2
-                    className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
+                    className={`text-3xl md:text-5xl font-bold mb-6 transition-colors duration-700 ${
                       isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
                     }`}
                   >
@@ -580,7 +631,7 @@ export default function Portfolio() {
 
                 <div className="space-y-6">
                   <p
-                    className={`text-lg leading-relaxed transition-colors duration-700 ${
+                    className={`text-base md:text-lg leading-relaxed transition-colors duration-700 ${
                       isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                     }`}
                   >
@@ -767,14 +818,14 @@ export default function Portfolio() {
             {/* Titre */}
             <div className="text-center mb-8 mt-4">
               <h2
-                className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
+                className={`text-3xl md:text-5xl font-bold mb-6 transition-colors duration-700 ${
                   isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
                 }`}
               >
                 Mes projets
               </h2>
               <p
-                className={`text-lg transition-colors duration-700 ${
+                className={`text-base md:text-lg transition-colors duration-700 ${
                   isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                 }`}
               >
