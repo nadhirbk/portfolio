@@ -752,13 +752,13 @@ export default function Portfolio() {
         {/* Section Projets */}
         <section
           id="projects"
-          className={`pt-16 pb-8 transition-colors duration-700 ${
+          className={`pt-20 pb-8 transition-colors duration-700 ${
             isDarkMode ? "bg-[#0F0F0F]" : "bg-white"
           }`}
         >
           <div className="max-w-7xl mx-auto px-6">
             {/* Titre */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-8">
               <h2
                 className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
                   isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
@@ -777,7 +777,7 @@ export default function Portfolio() {
             </div>
 
             {/* Filtres */}
-            <div className="flex justify-center gap-4 mb-8">
+            <div className="flex justify-center gap-4 mb-6">
               <button
                 onClick={() => setProjectFilter("all")}
                 className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium cursor-pointer ${
