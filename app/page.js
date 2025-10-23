@@ -972,7 +972,7 @@ export default function Portfolio() {
         {/* CTA Section avec effet fade-in au scroll */}
         <section
           id="contact"
-          className={`pt-16 pb-8 transition-all duration-1000 ease-out ${
+          className={`pt-28 pb-4 transition-all duration-1000 ease-out ${
             isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F5F1E8]"
           }`}
           style={{
