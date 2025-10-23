@@ -110,12 +110,14 @@ export default function Portfolio() {
   }, []);
 
   const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    setMouseX(x);
-    // Met à jour le mode seulement lors du hover sur la section Hero
-    const isDevSide = x < 50;
-    setIsDarkMode(isDevSide);
+  // Désactive le switch du thème sur mobile
+  if (window.innerWidth < 768) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  setMouseX(x);
+  // Met à jour le mode seulement lors du hover sur la section Hero
+  const isDevSide = x < 50;
+  setIsDarkMode(isDevSide);
   };
 
   const handleMouseEnter = () => {
@@ -408,7 +410,7 @@ export default function Portfolio() {
                   !isDevSide
                     ? "opacity-100 translate-x-0"
                     : "opacity-40 translate-x-4"
-                }`}
+                } text-center md:text-right flex flex-col items-center md:items-end`}
               >
                 <div
                   className={`inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full mb-6 border transition-all duration-700 ${
@@ -434,7 +436,7 @@ export default function Portfolio() {
                 <h1
                   className={`text-4xl md:text-6xl font-bold mb-6 leading-tight transition-colors duration-700 ${
                     isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
-                  }`}
+                  } text-center md:text-right`}
                 >
                   Je conçois des
                   <br />
@@ -451,7 +453,7 @@ export default function Portfolio() {
                 <p
                   className={`text-base md:text-lg mb-8 leading-relaxed transition-colors duration-700 ${
                     isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
-                  }`}
+                  } text-center md:text-right`}
                 >
                   Design system, prototypage, et recherche utilisateur pour
                   créer des expériences mémorables et centrées sur
@@ -462,7 +464,7 @@ export default function Portfolio() {
                     isDarkMode
                       ? "bg-[#766B5E] hover:bg-[#665B4E]"
                       : "bg-[#766B5E] hover:bg-[#665B4E]"
-                  }`}
+                  } hidden md:flex`}
                 >
                   Voir mon design
                   <ArrowRight size={20} className="transition-all" />
