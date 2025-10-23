@@ -20,6 +20,8 @@ export default function Portfolio() {
   const [projectFilter, setProjectFilter] = useState("all"); // Filtre pour les projets
   const [isHoveringHero, setIsHoveringHero] = useState(false); // Pour savoir si on survole le hero
   const carouselRef = useRef(null);
+  const [showLeftGradient, setShowLeftGradient] = useState(false);
+  const [showRightGradient, setShowRightGradient] = useState(true);
 
   // États pour le formulaire
   const [formData, setFormData] = useState({
@@ -30,10 +32,25 @@ export default function Portfolio() {
   });
   const [formErrors, setFormErrors] = useState({});
 
+  // Gérer l'affichage des gradients en fonction du scroll
+  const handleCarouselScroll = () => {
+    if (carouselRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+
+      // Gradient gauche : visible si on a scrollé
+      setShowLeftGradient(scrollLeft > 10);
+
+      // Gradient droit : visible si on n'est pas à la fin
+      setShowRightGradient(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
   // Réinitialiser le scroll du carrousel quand le filtre change
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.scrollLeft = 0;
+      setShowLeftGradient(false);
+      setShowRightGradient(true);
     }
   }, [projectFilter]);
 
@@ -791,9 +808,32 @@ export default function Portfolio() {
 
             {/* Carrousel horizontal de projets */}
             <div className="relative -mx-6 px-6">
+              {/* Gradient gauche (apparaît quand on scroll) */}
+              <div
+                className={`absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none transition-opacity duration-300 ${
+                  showLeftGradient ? "opacity-100" : "opacity-0"
+                } ${
+                  isDarkMode
+                    ? "bg-gradient-to-r from-[#0F0F0F] to-transparent"
+                    : "bg-gradient-to-r from-white to-transparent"
+                }`}
+              />
+
+              {/* Gradient droit (disparaît à la fin) */}
+              <div
+                className={`absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none transition-opacity duration-300 ${
+                  showRightGradient ? "opacity-100" : "opacity-0"
+                } ${
+                  isDarkMode
+                    ? "bg-gradient-to-l from-[#0F0F0F] to-transparent"
+                    : "bg-gradient-to-l from-white to-transparent"
+                }`}
+              />
+
               {/* Container scrollable */}
               <div
                 ref={carouselRef}
+                onScroll={handleCarouselScroll}
                 className="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing py-6"
                 style={{
                   scrollBehavior: "smooth",
