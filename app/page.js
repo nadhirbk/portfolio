@@ -10,6 +10,8 @@ import {
   Linkedin,
   Mail,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 export default function Portfolio() {
@@ -53,6 +55,20 @@ export default function Portfolio() {
       setShowRightGradient(true);
     }
   }, [projectFilter]);
+
+  // Fonctions de navigation du carrousel
+  const scrollCarousel = (direction) => {
+    if (carouselRef.current) {
+      const scrollAmount = 740; // 2 cartes : 2 * (350px + 20px gap)
+      const newScrollLeft =
+        carouselRef.current.scrollLeft +
+        (direction === "left" ? -scrollAmount : scrollAmount);
+      carouselRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: "smooth",
+      });
+    }
+  };
 
   // Scroll en haut au chargement de la page
   useEffect(() => {
@@ -540,7 +556,7 @@ export default function Portfolio() {
               <div className="space-y-8">
                 <div>
                   <h2
-                    className={`text-5xl font-bold mb-4 transition-colors duration-700 ${
+                    className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
                       isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
                     }`}
                   >
@@ -736,7 +752,7 @@ export default function Portfolio() {
         {/* Section Projets */}
         <section
           id="projects"
-          className={`py-8 transition-colors duration-700 ${
+          className={`pt-16 pb-8 transition-colors duration-700 ${
             isDarkMode ? "bg-[#0F0F0F]" : "bg-white"
           }`}
         >
@@ -807,7 +823,37 @@ export default function Portfolio() {
             </div>
 
             {/* Carrousel horizontal de projets */}
-            <div className="relative -mx-6 px-6">
+            <div className="relative -mx-6 px-6 group/carousel">
+              {/* Bouton Gauche */}
+              <button
+                onClick={() => scrollCarousel("left")}
+                className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
+                  showLeftGradient
+                    ? isDarkMode
+                      ? "bg-[#2A2A2A] text-[#F5F1E8] shadow-xl"
+                      : "bg-white text-[#2A2A2A] shadow-xl"
+                    : "pointer-events-none"
+                }`}
+                style={{ display: showLeftGradient ? "block" : "none" }}
+              >
+                <ChevronLeft size={24} />
+              </button>
+
+              {/* Bouton Droit */}
+              <button
+                onClick={() => scrollCarousel("right")}
+                className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${
+                  showRightGradient
+                    ? isDarkMode
+                      ? "bg-[#2A2A2A] text-[#F5F1E8] shadow-xl"
+                      : "bg-white text-[#2A2A2A] shadow-xl"
+                    : "pointer-events-none"
+                }`}
+                style={{ display: showRightGradient ? "block" : "none" }}
+              >
+                <ChevronRight size={24} />
+              </button>
+
               {/* Gradient gauche (apparaît quand on scroll) */}
               <div
                 className={`absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none transition-opacity duration-300 ${
@@ -834,7 +880,7 @@ export default function Portfolio() {
               <div
                 ref={carouselRef}
                 onScroll={handleCarouselScroll}
-                className="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing py-6"
+                className="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing py-8"
                 style={{
                   scrollBehavior: "smooth",
                 }}
@@ -850,7 +896,7 @@ export default function Portfolio() {
                       <Link
                         key={project.id}
                         href={`/projects/${project.slug}`}
-                        className={`flex-shrink-0 w-[350px] rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl ${
+                        className={`flex-shrink-0 w-[350px] rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl ${
                           isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F5F1E8]"
                         }`}
                       >
@@ -926,7 +972,7 @@ export default function Portfolio() {
         {/* CTA Section avec effet fade-in au scroll */}
         <section
           id="contact"
-          className={`py-20 transition-all duration-1000 ease-out ${
+          className={`pt-16 pb-8 transition-all duration-1000 ease-out ${
             isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F5F1E8]"
           }`}
           style={{
@@ -943,7 +989,7 @@ export default function Portfolio() {
                 Prêt à collaborer ?
               </h2>
               <p
-                className={`text-xl transition-colors duration-700 ${
+                className={`text-lg transition-colors duration-700 ${
                   isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                 }`}
               >
