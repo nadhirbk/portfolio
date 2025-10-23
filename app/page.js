@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import twemoji from "twemoji";
 import Link from "next/link";
 import { getAllProjects } from "@/data/projects";
 import {
@@ -51,14 +50,6 @@ export default function Portfolio() {
       localStorage.setItem("theme", isDarkMode ? "dark" : "light");
     }
   }, [isDarkMode, isHoveringHero]);
-
-  // Parse les émojis avec Twemoji
-  useEffect(() => {
-    twemoji.parse(document.body, {
-      folder: "svg",
-      ext: ".svg",
-    });
-  }, [isDarkMode]); // Re-parse quand le thème change
 
   useEffect(() => {
     const handleScroll = () => {
@@ -870,7 +861,7 @@ export default function Portfolio() {
             animation: "slideUp 0.8s ease-out",
           }}
         >
-          <div className="max-w-4xl mx-auto px-6">
+          <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
               <h2
                 className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
@@ -889,122 +880,248 @@ export default function Portfolio() {
               </p>
             </div>
 
-            {/* Formulaire de contact */}
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              {/* Prénom & Nom */}
-              <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid lg:grid-cols-2 gap-12 items-start">
+              {/* Colonne gauche - Formulaire */}
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                {/* Prénom & Nom */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <input
+                      type="text"
+                      name="prenom"
+                      placeholder="Prénom"
+                      value={formData.prenom}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
+                        formErrors.prenom ? "ring-2 ring-red-500" : ""
+                      } ${
+                        isDarkMode
+                          ? "bg-[#2A2A2A] text-[#F5F1E8] placeholder-[#6B6B6B] focus:ring-[#5B7AA6]"
+                          : "bg-white text-[#2A2A2A] placeholder-[#6B6B6B] focus:ring-[#766B5E]"
+                      }`}
+                    />
+                    {formErrors.prenom && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.prenom}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="nom"
+                      placeholder="Nom"
+                      value={formData.nom}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
+                        formErrors.nom ? "ring-2 ring-red-500" : ""
+                      } ${
+                        isDarkMode
+                          ? "bg-[#2A2A2A] text-[#F5F1E8] placeholder-[#6B6B6B] focus:ring-[#5B7AA6]"
+                          : "bg-white text-[#2A2A2A] placeholder-[#6B6B6B] focus:ring-[#766B5E]"
+                      }`}
+                    />
+                    {formErrors.nom && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formErrors.nom}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Email */}
                 <div>
                   <input
-                    type="text"
-                    name="prenom"
-                    placeholder="Prénom"
-                    value={formData.prenom}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
-                      formErrors.prenom ? "ring-2 ring-red-500" : ""
+                      formErrors.email ? "ring-2 ring-red-500" : ""
                     } ${
                       isDarkMode
                         ? "bg-[#2A2A2A] text-[#F5F1E8] placeholder-[#6B6B6B] focus:ring-[#5B7AA6]"
                         : "bg-white text-[#2A2A2A] placeholder-[#6B6B6B] focus:ring-[#766B5E]"
                     }`}
                   />
-                  {formErrors.prenom && (
+                  {formErrors.email && (
                     <p className="text-red-500 text-sm mt-1">
-                      {formErrors.prenom}
+                      {formErrors.email}
                     </p>
                   )}
                 </div>
+
+                {/* Message */}
                 <div>
-                  <input
-                    type="text"
-                    name="nom"
-                    placeholder="Nom"
-                    value={formData.nom}
+                  <textarea
+                    name="message"
+                    placeholder="Votre message"
+                    rows="4"
+                    value={formData.message}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
-                      formErrors.nom ? "ring-2 ring-red-500" : ""
+                    className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 resize-none ${
+                      formErrors.message ? "ring-2 ring-red-500" : ""
                     } ${
                       isDarkMode
                         ? "bg-[#2A2A2A] text-[#F5F1E8] placeholder-[#6B6B6B] focus:ring-[#5B7AA6]"
                         : "bg-white text-[#2A2A2A] placeholder-[#6B6B6B] focus:ring-[#766B5E]"
                     }`}
-                  />
-                  {formErrors.nom && (
+                  ></textarea>
+                  {formErrors.message && (
                     <p className="text-red-500 text-sm mt-1">
-                      {formErrors.nom}
+                      {formErrors.message}
                     </p>
                   )}
                 </div>
-              </div>
 
-              {/* Email */}
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
-                    formErrors.email ? "ring-2 ring-red-500" : ""
-                  } ${
-                    isDarkMode
-                      ? "bg-[#2A2A2A] text-[#F5F1E8] placeholder-[#6B6B6B] focus:ring-[#5B7AA6]"
-                      : "bg-white text-[#2A2A2A] placeholder-[#6B6B6B] focus:ring-[#766B5E]"
-                  }`}
-                />
-                {formErrors.email && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {formErrors.email}
-                  </p>
-                )}
-              </div>
+                {/* Bouton d'envoi */}
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className={`inline-flex items-center gap-2 px-8 py-4 rounded-2xl transition-all font-medium duration-700 group ${
+                      isDarkMode
+                        ? "bg-[#F5F1E8] text-[#1A1A1A] hover:bg-[#5B7AA6] hover:text-white"
+                        : "bg-[#2A2A2A] text-[#F5F1E8] hover:bg-[#766B5E]"
+                    }`}
+                  >
+                    Envoyer le message
+                    <ArrowRight
+                      size={20}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </button>
+                </div>
+              </form>
 
-              {/* Message */}
-              <div>
-                <textarea
-                  name="message"
-                  placeholder="Votre message"
-                  rows="6"
-                  value={formData.message}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 resize-none ${
-                    formErrors.message ? "ring-2 ring-red-500" : ""
-                  } ${
-                    isDarkMode
-                      ? "bg-[#2A2A2A] text-[#F5F1E8] placeholder-[#6B6B6B] focus:ring-[#5B7AA6]"
-                      : "bg-white text-[#2A2A2A] placeholder-[#6B6B6B] focus:ring-[#766B5E]"
-                  }`}
-                ></textarea>
-                {formErrors.message && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {formErrors.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Bouton d'envoi */}
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className={`inline-flex items-center gap-2 px-8 py-4 rounded-2xl transition-all font-medium duration-700 group ${
-                    isDarkMode
-                      ? "bg-[#F5F1E8] text-[#1A1A1A] hover:bg-[#5B7AA6] hover:text-white"
-                      : "bg-[#2A2A2A] text-[#F5F1E8] hover:bg-[#766B5E]"
+              {/* Colonne droite - Informations de contact */}
+              <div className="space-y-6">
+                {/* Email */}
+                <div
+                  className={`p-6 rounded-2xl transition-colors duration-700 ${
+                    isDarkMode ? "bg-[#2A2A2A]" : "bg-white"
                   }`}
                 >
-                  Envoyer le message
-                  <ArrowRight
-                    size={20}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
-                </button>
+                  <div className="flex items-start gap-4">
+                    <div
+                      className={`p-3 rounded-full transition-colors duration-700 ${
+                        isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F5F1E8]"
+                      }`}
+                    >
+                      <Mail
+                        size={24}
+                        className={`transition-colors duration-700 ${
+                          isDarkMode ? "text-[#5B7AA6]" : "text-[#766B5E]"
+                        }`}
+                      />
+                    </div>
+                    <div>
+                      <h3
+                        className={`font-semibold mb-1 transition-colors duration-700 ${
+                          isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
+                        }`}
+                      >
+                        Email
+                      </h3>
+                      <a
+                        href="mailto:dev.nadhirbk@gmail.com"
+                        className={`text-sm transition-colors duration-700 ${
+                          isDarkMode
+                            ? "text-[#B0B0B0] hover:text-[#5B7AA6]"
+                            : "text-[#6B6B6B] hover:text-[#766B5E]"
+                        }`}
+                      >
+                        dev.nadhirbk@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Réseaux sociaux */}
+                <div
+                  className={`p-6 rounded-2xl transition-colors duration-700 ${
+                    isDarkMode ? "bg-[#2A2A2A]" : "bg-white"
+                  }`}
+                >
+                  <h3
+                    className={`font-semibold mb-3 transition-colors duration-700 ${
+                      isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
+                    }`}
+                  >
+                    Réseaux sociaux
+                  </h3>
+                  <div className="space-y-3">
+                    <a
+                      href="https://github.com/nadhirbk"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex items-center gap-3 text-sm transition-colors duration-700 ${
+                        isDarkMode
+                          ? "text-[#B0B0B0] hover:text-[#5B7AA6]"
+                          : "text-[#6B6B6B] hover:text-[#766B5E]"
+                      }`}
+                    >
+                      <Github size={18} />
+                      GitHub
+                    </a>
+                    <a
+                      href="https://www.linkedin.com/in/nadhirbenkhaled/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`flex items-center gap-3 text-sm transition-colors duration-700 ${
+                        isDarkMode
+                          ? "text-[#B0B0B0] hover:text-[#5B7AA6]"
+                          : "text-[#6B6B6B] hover:text-[#766B5E]"
+                      }`}
+                    >
+                      <Linkedin size={18} />
+                      LinkedIn
+                    </a>
+                  </div>
+                </div>
+
+                {/* Disponibilité */}
+                <div
+                  className={`p-6 rounded-2xl transition-colors duration-700 ${
+                    isDarkMode ? "bg-[#2A2A2A]" : "bg-white"
+                  }`}
+                >
+                  <h3
+                    className={`font-semibold mb-3 transition-colors duration-700 ${
+                      isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
+                    }`}
+                  >
+                    Disponibilité
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <p
+                        className={`text-sm transition-colors duration-700 ${
+                          isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
+                        }`}
+                      >
+                        Disponible pour projets freelance
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      <p
+                        className={`text-sm transition-colors duration-700 ${
+                          isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
+                        }`}
+                      >
+                        En recherche d&apos;alternance
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </form>
+            </div>
           </div>
         </section>
 
