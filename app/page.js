@@ -70,11 +70,6 @@ export default function Portfolio() {
     }
   };
 
-  // Scroll en haut au chargement de la page
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   // Charger le thème depuis localStorage au démarrage
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
