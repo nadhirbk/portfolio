@@ -1290,8 +1290,12 @@ export default function Portfolio() {
                   <Mail size={20} />
                 </a>
               </div>
-              <div className="text-sm">
-                © {new Date().getFullYear()} Tous droits réservés
+              <div
+                className={`text-sm transition-colors duration-700 ${
+                  isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
+                }`}
+              >
+                © Tous droits réservés
               </div>
             </div>
           </div>
