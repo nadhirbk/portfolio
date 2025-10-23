@@ -441,7 +441,7 @@ export default function Portfolio() {
         {/* About Section */}
         <section
           id="about"
-          className={`pt-20 pb-8 transition-colors duration-700 ${
+          className={`pt-28 pb-4 transition-colors duration-700 ${
             isDarkMode ? "bg-[#0F0F0F]" : "bg-white"
           }`}
         >
