@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getProjectBySlug } from "@/data/projects";
 import { ArrowLeft, Github, ExternalLink, Code2, Palette } from "lucide-react";
 import Link from "next/link";
@@ -8,6 +8,23 @@ import Link from "next/link";
 export default function ProjectPage({ params }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const project = getProjectBySlug(params.slug);
+
+  // Charger le thème depuis localStorage au démarrage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+    } else if (savedTheme === "light") {
+      setIsDarkMode(false);
+    }
+  }, []);
+
+  // Sauvegarder le thème dans localStorage quand on clique sur le toggle
+  const toggleTheme = () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    localStorage.setItem("theme", newTheme ? "dark" : "light");
+  };
 
   // Si le projet n'existe pas
   if (!project) {
@@ -53,7 +70,7 @@ export default function ProjectPage({ params }) {
 
           {/* Toggle Dark Mode */}
           <button
-            onClick={() => setIsDarkMode(!isDarkMode)}
+            onClick={toggleTheme}
             className={`px-6 py-2 rounded-full transition-all duration-700 cursor-pointer hover:scale-110 hover:shadow-lg ${
               isDarkMode
                 ? "bg-[#F5F1E8] text-[#0F0F0F] hover:shadow-[#F5F1E8]/50"

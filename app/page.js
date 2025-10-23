@@ -19,6 +19,7 @@ export default function Portfolio() {
   const [isDarkMode, setIsDarkMode] = useState(false); // État persistant pour le mode
   const [scrollY, setScrollY] = useState(0);
   const [projectFilter, setProjectFilter] = useState("all"); // Filtre pour les projets
+  const [isHoveringHero, setIsHoveringHero] = useState(false); // Pour savoir si on survole le hero
 
   // États pour le formulaire
   const [formData, setFormData] = useState({
@@ -33,6 +34,23 @@ export default function Portfolio() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // Charger le thème depuis localStorage au démarrage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+    } else if (savedTheme === "light") {
+      setIsDarkMode(false);
+    }
+  }, []);
+
+  // Sauvegarder le thème dans localStorage quand il change (seulement si pas en hover)
+  useEffect(() => {
+    if (!isHoveringHero) {
+      localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    }
+  }, [isDarkMode, isHoveringHero]);
 
   // Parse les émojis avec Twemoji
   useEffect(() => {
@@ -58,6 +76,16 @@ export default function Portfolio() {
     // Met à jour le mode seulement lors du hover sur la section Hero
     const isDevSide = x < 50;
     setIsDarkMode(isDevSide);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHoveringHero(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHoveringHero(false);
+    // Sauvegarder le thème actuel quand on quitte le hero
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   };
 
   // Gestion de la soumission
@@ -190,6 +218,8 @@ export default function Portfolio() {
       <section
         className="sticky top-0 h-screen overflow-hidden"
         onMouseMove={handleMouseMove}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         style={{
           zIndex: 1,
         }}
