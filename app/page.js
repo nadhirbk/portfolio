@@ -19,6 +19,7 @@ export default function Portfolio() {
   const [scrollY, setScrollY] = useState(0);
   const [projectFilter, setProjectFilter] = useState("all"); // Filtre pour les projets
   const [isHoveringHero, setIsHoveringHero] = useState(false); // Pour savoir si on survole le hero
+  const carouselRef = useRef(null);
 
   // États pour le formulaire
   const [formData, setFormData] = useState({
@@ -28,6 +29,13 @@ export default function Portfolio() {
     message: "",
   });
   const [formErrors, setFormErrors] = useState({});
+
+  // Réinitialiser le scroll du carrousel quand le filtre change
+  useEffect(() => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft = 0;
+    }
+  }, [projectFilter]);
 
   // Scroll en haut au chargement de la page
   useEffect(() => {
@@ -400,7 +408,7 @@ export default function Portfolio() {
         {/* About Section */}
         <section
           id="about"
-          className={`pt-20 pb-16 transition-colors duration-700 ${
+          className={`pt-20 pb-8 transition-colors duration-700 ${
             isDarkMode ? "bg-[#0F0F0F]" : "bg-white"
           }`}
         >
@@ -417,7 +425,7 @@ export default function Portfolio() {
                     <img
                       src="/images/profile.jpg"
                       alt="Nadhir - Développeur & Designer UI/UX"
-                      className={`relative w-80 h-80 rounded-full object-cover border-4 transition-all duration-700 group-hover:scale-105 ${
+                      className={`relative w-64 h-64 rounded-full object-cover border-4 transition-all duration-700 group-hover:scale-105 ${
                         isDarkMode
                           ? "border-[#2A2A2A] shadow-2xl"
                           : "border-[#F5F1E8] shadow-xl"
@@ -711,7 +719,7 @@ export default function Portfolio() {
         {/* Section Projets */}
         <section
           id="projects"
-          className={`py-20 transition-colors duration-700 ${
+          className={`py-8 transition-colors duration-700 ${
             isDarkMode ? "bg-[#0F0F0F]" : "bg-white"
           }`}
         >
@@ -736,7 +744,7 @@ export default function Portfolio() {
             </div>
 
             {/* Filtres */}
-            <div className="flex justify-center gap-4 mb-12">
+            <div className="flex justify-center gap-4 mb-8">
               <button
                 onClick={() => setProjectFilter("all")}
                 className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium ${
@@ -781,72 +789,96 @@ export default function Portfolio() {
               </button>
             </div>
 
-            {/* Grid de projets */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {getAllProjects()
-                .filter(
-                  (project) =>
-                    projectFilter === "all" ||
-                    project.category === projectFilter
-                )
-                .map((project) => (
-                  <Link
-                    key={project.id}
-                    href={`/projects/${project.slug}`}
-                    className={`group rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 ${
-                      isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F5F1E8]"
-                    }`}
-                  >
-                    <div
-                      className={`aspect-video ${
-                        isDarkMode ? "bg-[#2A2A2A]" : "bg-[#E5DED0]"
-                      } flex items-center justify-center`}
-                    >
-                      {project.category === "dev" ? (
-                        <Code2
-                          size={48}
-                          className={
-                            isDarkMode ? "text-[#5B7AA6]" : "text-[#3B4A6B]"
-                          }
-                        />
-                      ) : (
-                        <Palette size={48} className="text-[#766B5E]" />
-                      )}
-                    </div>
-                    <div className="p-6">
-                      <h3
-                        className={`text-xl font-bold mb-2 transition-colors duration-700 ${
-                          isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
+            {/* Carrousel horizontal de projets */}
+            <div className="relative -mx-6 px-6">
+              {/* Container scrollable */}
+              <div
+                ref={carouselRef}
+                className="overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing py-6"
+                style={{
+                  scrollBehavior: "smooth",
+                }}
+              >
+                <div className="flex gap-6 px-6">
+                  {getAllProjects()
+                    .filter(
+                      (project) =>
+                        projectFilter === "all" ||
+                        project.category === projectFilter
+                    )
+                    .map((project) => (
+                      <Link
+                        key={project.id}
+                        href={`/projects/${project.slug}`}
+                        className={`flex-shrink-0 w-[350px] rounded-2xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl ${
+                          isDarkMode ? "bg-[#1A1A1A]" : "bg-[#F5F1E8]"
                         }`}
                       >
-                        {project.title}
-                      </h3>
-                      <p
-                        className={`text-sm mb-4 transition-colors duration-700 ${
-                          isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
-                        }`}
-                      >
-                        {project.shortDescription}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.technologies.slice(0, 2).map((tech, index) => (
-                          <span
-                            key={index}
-                            className={`px-3 py-1 rounded-full text-xs ${
-                              project.category === "dev"
-                                ? isDarkMode
-                                  ? "bg-[#5B7AA6] text-white"
-                                  : "bg-[#3B4A6B] text-white"
-                                : "bg-[#766B5E] text-white"
+                        <div
+                          className={`aspect-video ${
+                            isDarkMode ? "bg-[#2A2A2A]" : "bg-[#E5DED0]"
+                          } flex items-center justify-center`}
+                        >
+                          {project.category === "dev" ? (
+                            <Code2
+                              size={48}
+                              className={
+                                isDarkMode ? "text-[#5B7AA6]" : "text-[#3B4A6B]"
+                              }
+                            />
+                          ) : (
+                            <Palette size={48} className="text-[#766B5E]" />
+                          )}
+                        </div>
+                        <div className="p-6">
+                          <h3
+                            className={`text-xl font-bold mb-2 transition-colors duration-700 ${
+                              isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
                             }`}
                           >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+                            {project.title}
+                          </h3>
+                          <p
+                            className={`text-sm mb-4 transition-colors duration-700 ${
+                              isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
+                            }`}
+                          >
+                            {project.shortDescription}
+                          </p>
+                          <div className="flex flex-wrap gap-2">
+                            {project.technologies
+                              .slice(0, 2)
+                              .map((tech, index) => (
+                                <span
+                                  key={index}
+                                  className={`px-3 py-1 rounded-full text-xs ${
+                                    project.category === "dev"
+                                      ? isDarkMode
+                                        ? "bg-[#5B7AA6] text-white"
+                                        : "bg-[#3B4A6B] text-white"
+                                      : "bg-[#766B5E] text-white"
+                                  }`}
+                                >
+                                  {tech}
+                                </span>
+                              ))}
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                </div>
+              </div>
+
+              {/* Indicateur de scroll pour souris */}
+              <div className="text-center mt-2">
+                <p
+                  className={`text-sm transition-colors duration-700 ${
+                    isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
+                  }`}
+                >
+                  ← Faites défiler pour voir plus de projets →
+                </p>
+              </div>
             </div>
           </div>
         </section>

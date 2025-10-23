@@ -61,6 +61,66 @@ export const projects = [
     liveUrl: "#", // Lien Figma ou Behance
     githubUrl: null, // Pas de GitHub pour un projet design
   },
+  {
+    id: 4,
+    slug: "projet-dev-web-3",
+    title: "Projet Dev Web 3",
+    category: "dev",
+    shortDescription: "Site e-commerce moderne avec panier et paiement",
+    fullDescription:
+      "Plateforme e-commerce complète avec gestion de produits, panier d'achat, système de paiement sécurisé et interface d'administration.",
+    technologies: ["Next.js", "React", "Stripe", "MongoDB"],
+    role: "Développeur Full Stack",
+    duration: "4 mois",
+    year: "2024",
+    challenges:
+      "Intégration de paiement sécurisé, gestion des stocks, optimisation SEO pour les fiches produits.",
+    results:
+      "Site déployé avec succès, conversion augmentée de 30%, excellent référencement naturel.",
+    images: [],
+    liveUrl: "#",
+    githubUrl: "https://github.com/nadhirbk",
+  },
+  {
+    id: 5,
+    slug: "projet-uiux-2",
+    title: "Projet UI/UX 2",
+    category: "design",
+    shortDescription: "Refonte UX d'une application existante",
+    fullDescription:
+      "Analyse et refonte complète de l'expérience utilisateur d'une application mobile, basée sur des tests utilisateurs et des metrics d'utilisation.",
+    technologies: ["Figma", "User Testing", "Wireframing", "Prototyping"],
+    role: "UX Designer",
+    duration: "3 mois",
+    year: "2024",
+    challenges:
+      "Comprendre les pain points des utilisateurs, simplifier les parcours, améliorer la rétention.",
+    results:
+      "Satisfaction utilisateur augmentée de 45%, temps de complétion des tâches réduit de 35%.",
+    images: [],
+    liveUrl: "#",
+    githubUrl: null,
+  },
+  {
+    id: 6,
+    slug: "projet-dev-web-4",
+    title: "Projet Dev Web 4",
+    category: "dev",
+    shortDescription: "Application de gestion de projet collaborative",
+    fullDescription:
+      "Outil de gestion de projet en temps réel permettant la collaboration entre équipes avec système de tâches, messagerie intégrée et suivi de progression.",
+    technologies: ["React", "Node.js", "Socket.io", "PostgreSQL"],
+    role: "Développeur Full Stack",
+    duration: "5 mois",
+    year: "2024",
+    challenges:
+      "Synchronisation en temps réel, gestion des permissions, notifications push, performance avec données volumineuses.",
+    results:
+      "Adoption par 5 équipes internes, productivité augmentée de 25%, feedback très positif.",
+    images: [],
+    liveUrl: "#",
+    githubUrl: "https://github.com/nadhirbk",
+  },
 ];
 
 // Fonction pour récupérer un projet par son slug

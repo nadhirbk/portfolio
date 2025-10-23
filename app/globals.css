@@ -46,6 +46,16 @@ html {
   scrollbar-width: none;
 }
 
+/* Cache la scrollbar pour le carrousel de projets */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
