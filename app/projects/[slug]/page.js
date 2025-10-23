@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { getProjectBySlug } from "@/data/projects";
 import { ArrowLeft, Github, ExternalLink, Code2, Palette } from "lucide-react";
 import Link from "next/link";
 
 export default function ProjectPage({ params }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const project = getProjectBySlug(params.slug);
+  const resolvedParams = use(params);
+  const project = getProjectBySlug(resolvedParams.slug);
 
   // Charger le thème depuis localStorage au démarrage
   useEffect(() => {
