@@ -110,14 +110,14 @@ export default function Portfolio() {
   }, []);
 
   const handleMouseMove = (e) => {
-  // Désactive le switch du thème sur mobile
-  if (window.innerWidth < 768) return;
-  const rect = e.currentTarget.getBoundingClientRect();
-  const x = ((e.clientX - rect.left) / rect.width) * 100;
-  setMouseX(x);
-  // Met à jour le mode seulement lors du hover sur la section Hero
-  const isDevSide = x < 50;
-  setIsDarkMode(isDevSide);
+    // Désactive le switch du thème sur mobile
+    if (window.innerWidth < 768) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    setMouseX(x);
+    // Met à jour le mode seulement lors du hover sur la section Hero
+    const isDevSide = x < 50;
+    setIsDarkMode(isDevSide);
   };
 
   const handleMouseEnter = () => {
@@ -397,10 +397,33 @@ export default function Portfolio() {
                     isDarkMode
                       ? "bg-[#5B7AA6] hover:bg-[#4A6A95]"
                       : "bg-[#3B4A6B] hover:bg-[#2A3A5B]"
-                  }`}
+                  } relative overflow-hidden`} 
+                  onClick={(e) => {
+                    if (window.innerWidth < 768) {
+                      e.preventDefault();
+                      // Animation visuelle
+                      const btn = e.currentTarget;
+                      btn.classList.add('animate-press');
+                      setTimeout(() => {
+                        btn.classList.remove('animate-press');
+                        const section = document.getElementById('projects');
+                        if (section) {
+                          section.scrollIntoView({ behavior: 'smooth' });
+                        }
+                      }, 180);
+                    }
+                  }}
                 >
                   Voir mes projets
                   <ArrowRight size={20} className="transition-all" />
+                  {/* Animation press */}
+                  <style jsx>{`
+                    .animate-press {
+                      transform: scale(0.96);
+                      box-shadow: 0 0 0 4px #5B7AA633;
+                      transition: transform 0.18s, box-shadow 0.18s;
+                    }
+                  `}</style>
                 </button>
               </div>
 
@@ -507,7 +530,7 @@ export default function Portfolio() {
         >
           <div className="max-w-6xl mx-auto px-6">
             <div className="grid md:grid-cols-[400px_1fr] gap-16 items-start">
-              {/* Colonne gauche : Photo + Stats */}
+              {/* Colonne gauche : Photo + Titre + Texte + Stats */}
               <div className="space-y-4">
                 {/* Photo de profil - centrée */}
                 <div className="flex justify-center">
@@ -526,7 +549,40 @@ export default function Portfolio() {
                     />
                   </div>
                 </div>
-
+                {/* Titre + Texte en mobile */}
+                <div className="block md:hidden">
+                  <h2
+                    className={`text-3xl font-bold mb-6 transition-colors duration-700 ${
+                      isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
+                    } text-center`}
+                  >
+                    Hello, moi c&apos;est Nadhir 👋🏼
+                  </h2>
+                  <div
+                    className={`w-20 h-1 mx-auto bg-gradient-to-r rounded-full transition-all duration-700 ${
+                      isDarkMode
+                        ? "from-[#5B7AA6] to-[#766B5E]"
+                        : "from-[#3B4A6B] to-[#766B5E]"
+                    }`}
+                  />
+                  <div className="space-y-6 mt-6">
+                    <p
+                      className={`text-base leading-relaxed transition-colors duration-700 ${
+                        isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
+                      } text-center`}
+                    >
+                      Je suis un jeune développeur web passionné par la création
+                      d&apos;expériences digitales qui allient <span className={`font-semibold transition-colors duration-700 ${isDarkMode ? "text-[#5B7AA6]" : "text-[#3B4A6B]"}`}>performance technique</span> et <span className={`font-semibold transition-colors duration-700 ${isDarkMode ? "text-[#766B5E]" : "text-[#766B5E]"}`}>excellence design</span>.
+                    </p>
+                    <p
+                      className={`text-base leading-relaxed transition-colors duration-700 ${
+                        isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
+                      } text-center`}
+                    >
+                      Actuellement en recherche d&apos;alternance en UI/UX Design pour janvier/février 2026, je continue de développer des sites web pour mes clients tout en approfondissant mes compétences en design d&apos;interface.
+                    </p>
+                  </div>
+                </div>
                 {/* Stats en grid 2x2 */}
                 <div className="grid grid-cols-2 gap-4">
                   <div
@@ -614,7 +670,7 @@ export default function Portfolio() {
 
               {/* Colonne droite : Contenu */}
               <div className="space-y-8">
-                <div>
+                <div className="hidden md:block">
                   <h2
                     className={`text-3xl md:text-5xl font-bold mb-6 transition-colors duration-700 ${
                       isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
@@ -629,43 +685,42 @@ export default function Portfolio() {
                         : "from-[#3B4A6B] to-[#766B5E]"
                     }`}
                   />
-                </div>
-
-                <div className="space-y-6">
-                  <p
-                    className={`text-base md:text-lg leading-relaxed transition-colors duration-700 ${
-                      isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
-                    }`}
-                  >
-                    Je suis un jeune développeur web passionné par la création
-                    d&apos;expériences digitales qui allient{" "}
-                    <span
-                      className={`font-semibold transition-colors duration-700 ${
-                        isDarkMode ? "text-[#5B7AA6]" : "text-[#3B4A6B]"
+                  <div className="space-y-6">
+                    <p
+                      className={`text-base md:text-lg leading-relaxed transition-colors duration-700 ${
+                        isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                       }`}
                     >
-                      performance technique
-                    </span>{" "}
-                    et{" "}
-                    <span
-                      className={`font-semibold transition-colors duration-700 ${
-                        isDarkMode ? "text-[#766B5E]" : "text-[#766B5E]"
+                      Je suis un jeune développeur web passionné par la création
+                      d&apos;expériences digitales qui allient{" "}
+                      <span
+                        className={`font-semibold transition-colors duration-700 ${
+                          isDarkMode ? "text-[#5B7AA6]" : "text-[#3B4A6B]"
+                        }`}
+                      >
+                        performance technique
+                      </span>{" "}
+                      et{" "}
+                      <span
+                        className={`font-semibold transition-colors duration-700 ${
+                          isDarkMode ? "text-[#766B5E]" : "text-[#766B5E]"
+                        }`}
+                      >
+                        excellence design
+                      </span>
+                      .
+                    </p>
+                    <p
+                      className={`text-lg leading-relaxed transition-colors duration-700 ${
+                        isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
                       }`}
                     >
-                      excellence design
-                    </span>
-                    .
-                  </p>
-                  <p
-                    className={`text-lg leading-relaxed transition-colors duration-700 ${
-                      isDarkMode ? "text-[#B0B0B0]" : "text-[#6B6B6B]"
-                    }`}
-                  >
-                    Actuellement en recherche d&apos;alternance en UI/UX Design
-                    pour janvier/février 2026, je continue de développer des
-                    sites web pour mes clients tout en approfondissant mes
-                    compétences en design d&apos;interface.
-                  </p>
+                      Actuellement en recherche d&apos;alternance en UI/UX Design
+                      pour janvier/février 2026, je continue de développer des
+                      sites web pour mes clients tout en approfondissant mes
+                      compétences en design d&apos;interface.
+                    </p>
+                  </div>
                 </div>
 
                 <div className="flex gap-4">
@@ -1042,7 +1097,7 @@ export default function Portfolio() {
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-12">
               <h2
-                className={`text-5xl font-bold mb-6 transition-colors duration-700 ${
+                className={`text-3xl md:text-5xl font-bold mb-6 transition-colors duration-700 ${
                   isDarkMode ? "text-[#F5F1E8]" : "text-[#2A2A2A]"
                 }`}
               >
@@ -1058,7 +1113,7 @@ export default function Portfolio() {
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-12 items-start">
+            <div className="grid lg:grid-cols-2 gap-12 items-start mt-0 md:mt-0">
               {/* Colonne gauche - Formulaire */}
               <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Prénom & Nom */}
@@ -1071,7 +1126,7 @@ export default function Portfolio() {
                       value={formData.prenom}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
+                      className={`w-full px-4 py-3 md:px-6 md:py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
                         formErrors.prenom ? "ring-2 ring-red-500" : ""
                       } ${
                         isDarkMode
@@ -1093,7 +1148,7 @@ export default function Portfolio() {
                       value={formData.nom}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
+                      className={`w-full px-4 py-3 md:px-6 md:py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
                         formErrors.nom ? "ring-2 ring-red-500" : ""
                       } ${
                         isDarkMode
@@ -1118,7 +1173,7 @@ export default function Portfolio() {
                     value={formData.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
+                    className={`w-full px-4 py-3 md:px-6 md:py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 ${
                       formErrors.email ? "ring-2 ring-red-500" : ""
                     } ${
                       isDarkMode
@@ -1142,7 +1197,7 @@ export default function Portfolio() {
                     value={formData.message}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`w-full px-6 py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 resize-none ${
+                    className={`w-full px-4 py-3 md:px-6 md:py-4 rounded-xl transition-all duration-700 focus:outline-none focus:ring-2 resize-none ${
                       formErrors.message ? "ring-2 ring-red-500" : ""
                     } ${
                       isDarkMode
