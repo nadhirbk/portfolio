@@ -1,3 +1,5 @@
+// Conversion automatique depuis layout.js
+// ...existing code...
 import "./globals.css";
 
 export const metadata = {

@@ -1,18 +1,39 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { getProjectBySlug } from "@/data/projects";
 import { ArrowLeft, Github, ExternalLink, Code2, Palette } from "lucide-react";
 import Link from "next/link";
 
-export default function ProjectPage({ params }) {
+interface ProjectPageProps {
+  params: { slug: string };
+}
+
+interface Project {
+  id: number;
+  slug: string;
+  title: string;
+  category: string;
+  shortDescription: string;
+  fullDescription: string;
+  technologies: string[];
+  role: string;
+  duration: string;
+  year: string;
+  challenges: string;
+  results: string;
+  images: string[];
+  liveUrl?: string;
+  githubUrl?: string | null;
+}
+
+export default function ProjectPage({ params }: ProjectPageProps) {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const resolvedParams = use(params);
-  const project = getProjectBySlug(resolvedParams.slug);
+  const project: Project | undefined = getProjectBySlug(params.slug);
 
   // Charger le thème depuis localStorage au démarrage
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
     if (savedTheme === "dark") {
       setIsDarkMode(true);
     } else if (savedTheme === "light") {
@@ -24,7 +45,9 @@ export default function ProjectPage({ params }) {
   const toggleTheme = () => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
-    localStorage.setItem("theme", newTheme ? "dark" : "light");
+    if (typeof window !== "undefined") {
+      localStorage.setItem("theme", newTheme ? "dark" : "light");
+    }
   };
 
   // Si le projet n'existe pas
@@ -88,14 +111,9 @@ export default function ProjectPage({ params }) {
         {/* Bouton retour */}
         <Link
           href="/#projects"
-          className={`inline-flex items-center gap-2 mb-8 transition-colors duration-700 ${
-            isDarkMode
-              ? "text-[#B0B0B0] hover:text-[#F5F1E8]"
-              : "text-[#6B6B6B] hover:text-[#2A2A2A]"
-          }`}
+          className="inline-flex items-center gap-2 text-[#5B7AA6] hover:underline font-medium transition-all duration-300 mb-6"
         >
-          <ArrowLeft size={20} />
-          Retour aux projets
+          <ArrowLeft size={18} /> Retour aux projets
         </Link>
 
         {/* Header du projet */}
@@ -330,3 +348,5 @@ export default function ProjectPage({ params }) {
     </div>
   );
 }
+// Conversion automatique depuis projects/[slug]/page.js
+// ...existing code...
