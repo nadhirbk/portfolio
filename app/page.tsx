@@ -86,36 +86,40 @@ export default function Portfolio() {
     }
   };
 
-  // Charger le thème depuis localStorage au démarrage
+  // Charger le thème depuis localStorage au démarrage et synchroniser sur navigation
   useEffect(() => {
-    // On ne prend le localStorage que si l'utilisateur a déjà interagi (toggle ou hover)
-    const userHasChosenTheme = localStorage.getItem("theme-chosen") === "true";
-    if (userHasChosenTheme) {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme === "dark") {
-        setIsDarkMode(true);
-      } else if (savedTheme === "light") {
-        setIsDarkMode(false);
+    const syncTheme = () => {
+      const userHasChosenTheme =
+        localStorage.getItem("theme-chosen") === "true";
+      if (userHasChosenTheme) {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          setIsDarkMode(true);
+        } else if (savedTheme === "light") {
+          setIsDarkMode(false);
+        }
+      } else {
+        // Toujours prioriser le thème système au premier chargement
+        const prefersDark =
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setIsDarkMode(prefersDark);
+        localStorage.setItem("theme", prefersDark ? "dark" : "light");
       }
-    } else {
-      // Toujours prioriser le thème système au premier chargement
-      const prefersDark =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setIsDarkMode(prefersDark);
-      localStorage.setItem("theme", prefersDark ? "dark" : "light");
-    }
+    };
+    syncTheme();
+    window.addEventListener("storage", syncTheme);
+    return () => window.removeEventListener("storage", syncTheme);
   }, []);
 
   // Sauvegarder le thème dans localStorage quand il change (seulement si pas en hover)
   useEffect(() => {
     // Désactive la sauvegarde du thème sur mobile
     if (window.innerWidth < 768) return;
-    if (!isHoveringHero) {
-      localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-      localStorage.setItem("theme-chosen", "true");
-    }
-  }, [isDarkMode, isHoveringHero]);
+    // Sauvegarde le thème à chaque changement, même pendant le hover
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    localStorage.setItem("theme-chosen", "true");
+  }, [isDarkMode]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -159,7 +163,9 @@ export default function Portfolio() {
   };
 
   // Gestion des changements de champs
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Nettoie l'erreur du champ quand l'utilisateur tape
@@ -169,7 +175,9 @@ export default function Portfolio() {
   };
 
   // Validation en temps réel lors de la perte de focus
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     let error = "";
 

@@ -34,14 +34,20 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = React.use(params);
   const project: Project | undefined = getProjectBySlug(slug);
 
-  // Charger le thème depuis localStorage au démarrage
+  // Charger le thème depuis localStorage au démarrage et synchroniser sur changement
   useEffect(() => {
-    const savedTheme = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
-    if (savedTheme === "dark") {
-      setIsDarkMode(true);
-    } else if (savedTheme === "light") {
-      setIsDarkMode(false);
-    }
+    const syncTheme = () => {
+      const savedTheme =
+        typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+      if (savedTheme === "dark") {
+        setIsDarkMode(true);
+      } else if (savedTheme === "light") {
+        setIsDarkMode(false);
+      }
+    };
+    syncTheme();
+    window.addEventListener("storage", syncTheme);
+    return () => window.removeEventListener("storage", syncTheme);
   }, []);
 
   // Sauvegarder le thème dans localStorage quand on clique sur le toggle
