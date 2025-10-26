@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { getAllProjects } from "@/data/projects";
 import {
@@ -23,19 +24,31 @@ export default function Portfolio() {
   const [scrollY, setScrollY] = useState(0);
   const [projectFilter, setProjectFilter] = useState("all"); // Filtre pour les projets
   const [isHoveringHero, setIsHoveringHero] = useState(false); // Pour savoir si on survole le hero
-  const carouselRef = useRef(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const [showLeftGradient, setShowLeftGradient] = useState(false);
   const [showRightGradient, setShowRightGradient] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // États pour le formulaire
-  const [formData, setFormData] = useState({
+  interface FormData {
+    prenom: string;
+    nom: string;
+    email: string;
+    message: string;
+  }
+  interface FormErrors {
+    prenom?: string;
+    nom?: string;
+    email?: string;
+    message?: string;
+  }
+  const [formData, setFormData] = useState<FormData>({
     prenom: "",
     nom: "",
     email: "",
     message: "",
   });
-  const [formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   // Gérer l'affichage des gradients en fonction du scroll
   const handleCarouselScroll = () => {
@@ -53,20 +66,20 @@ export default function Portfolio() {
   // Réinitialiser le scroll du carrousel quand le filtre change
   useEffect(() => {
     if (carouselRef.current) {
-      carouselRef.current.scrollLeft = 0;
+      (carouselRef.current as HTMLDivElement).scrollLeft = 0;
       setShowLeftGradient(false);
       setShowRightGradient(true);
     }
   }, [projectFilter]);
 
   // Fonctions de navigation du carrousel
-  const scrollCarousel = (direction) => {
+  const scrollCarousel = (direction: "left" | "right") => {
     if (carouselRef.current) {
-      const scrollAmount = 740; // 2 cartes : 2 * (350px + 20px gap)
+      const scrollAmount = 740;
       const newScrollLeft =
-        carouselRef.current.scrollLeft +
+        (carouselRef.current as HTMLDivElement).scrollLeft +
         (direction === "left" ? -scrollAmount : scrollAmount);
-      carouselRef.current.scrollTo({
+      (carouselRef.current as HTMLDivElement).scrollTo({
         left: newScrollLeft,
         behavior: "smooth",
       });
@@ -113,15 +126,15 @@ export default function Portfolio() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleMouseMove = (e) => {
-  // Désactive totalement le switch du thème sur mobile
-  if (window.innerWidth < 768) return;
-  // Sur desktop, on garde le comportement existant
-  const rect = e.currentTarget.getBoundingClientRect();
-  const x = ((e.clientX - rect.left) / rect.width) * 100;
-  setMouseX(x);
-  const isDevSide = x < 50;
-  setIsDarkMode(isDevSide);
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Désactive totalement le switch du thème sur mobile
+    if (window.innerWidth < 768) return;
+    // Sur desktop, on garde le comportement existant
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    setMouseX(x);
+    const isDevSide = x < 50;
+    setIsDarkMode(isDevSide);
   };
 
   const handleMouseEnter = () => {
@@ -135,7 +148,7 @@ export default function Portfolio() {
   };
 
   // Gestion de la soumission
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Formulaire valide - envoyer directement
     console.log("Formulaire envoyé:", formData);
@@ -146,17 +159,17 @@ export default function Portfolio() {
   };
 
   // Gestion des changements de champs
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     // Nettoie l'erreur du champ quand l'utilisateur tape
-    if (formErrors[name]) {
+    if ((formErrors as any)[name]) {
       setFormErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   // Validation en temps réel lors de la perte de focus
-  const handleBlur = (e) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     let error = "";
 
@@ -542,14 +555,17 @@ export default function Portfolio() {
                     <div
                       className={`absolute inset-0 rounded-full bg-gradient-to-br from-[#5B7AA6] to-[#766B5E] opacity-20 blur-xl group-hover:opacity-30 transition-opacity duration-700`}
                     />
-                    <img
+                    <Image
                       src="/images/profile.jpg"
                       alt="Nadhir - Développeur & Designer UI/UX"
+                      width={256}
+                      height={256}
                       className={`relative w-64 h-64 rounded-full object-cover border-4 transition-all duration-700 group-hover:scale-105 ${
                         isDarkMode
                           ? "border-[#2A2A2A] shadow-2xl"
                           : "border-[#F5F1E8] shadow-xl"
                       }`}
+                      priority
                     />
                   </div>
                 </div>
@@ -1218,7 +1234,7 @@ export default function Portfolio() {
                   <textarea
                     name="message"
                     placeholder="Votre message"
-                    rows="4"
+                    rows={4}
                     value={formData.message}
                     onChange={handleChange}
                     onBlur={handleBlur}

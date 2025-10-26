@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { getProjectBySlug } from "@/data/projects";
 import { ArrowLeft, Github, ExternalLink, Code2, Palette } from "lucide-react";
 import Link from "next/link";
@@ -29,7 +29,10 @@ interface Project {
 
 export default function ProjectPage({ params }: ProjectPageProps) {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const project: Project | undefined = getProjectBySlug(params.slug);
+  // Next.js 16 : params est une Promise, il faut utiliser React.use()
+  // @ts-ignore
+  const { slug } = React.use(params);
+  const project: Project | undefined = getProjectBySlug(slug);
 
   // Charger le thème depuis localStorage au démarrage
   useEffect(() => {

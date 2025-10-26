@@ -1,5 +1,25 @@
-// Base de données de tous les projets
-export const projects = [
+
+// Base de données de tous les projets (TypeScript)
+
+export interface Project {
+  id: number;
+  slug: string;
+  title: string;
+  category: string;
+  shortDescription: string;
+  fullDescription: string;
+  technologies: string[];
+  role: string;
+  duration: string;
+  year: string;
+  challenges: string;
+  results: string;
+  images: string[];
+  liveUrl?: string;
+  githubUrl?: string | null;
+}
+
+export const projects: Project[] = [
   {
     id: 1,
     slug: "projet-dev-web-1",
@@ -16,10 +36,9 @@ export const projects = [
       "Optimisation des performances, gestion d'état complexe, et création d'une interface responsive.",
     results:
       "Application déployée avec succès, temps de chargement réduit de 40%, excellente expérience utilisateur.",
-    // Pour l'instant, pas d'images - on mettra des placeholders
     images: [],
-    liveUrl: "#", // Lien vers le site en ligne
-    githubUrl: "https://github.com/nadhirbk", // Ton GitHub
+    liveUrl: "#",
+    githubUrl: "https://github.com/nadhirbk",
   },
   {
     id: 2,
@@ -58,8 +77,8 @@ export const projects = [
     results:
       "Design system adopté par toute l'équipe, réduction du temps de design de 50%, amélioration de la cohérence visuelle.",
     images: [],
-    liveUrl: "#", // Lien Figma ou Behance
-    githubUrl: null, // Pas de GitHub pour un projet design
+    liveUrl: "#",
+    githubUrl: null,
   },
   {
     id: 4,
@@ -123,18 +142,15 @@ export const projects = [
   },
 ];
 
-// Fonction pour récupérer un projet par son slug
-export function getProjectBySlug(slug) {
+export function getProjectBySlug(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug);
 }
 
-// Fonction pour récupérer tous les projets
-export function getAllProjects() {
+export function getAllProjects(): Project[] {
   return projects;
 }
 
-// Fonction pour récupérer les projets par catégorie
-export function getProjectsByCategory(category) {
+export function getProjectsByCategory(category: string): Project[] {
   if (category === "all") return projects;
   return projects.filter((project) => project.category === category);
 }

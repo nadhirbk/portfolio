@@ -7,7 +7,9 @@ export const metadata = {
   description: "Développeur web et UI/UX Designer passionné",
 };
 
-export default function RootLayout({ children }) {
+import { ReactNode } from "react";
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
       <head>
