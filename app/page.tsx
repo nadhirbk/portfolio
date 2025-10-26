@@ -3,6 +3,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllProjects } from "@/data/projects";
@@ -18,6 +19,7 @@ import {
 } from "lucide-react";
 
 export default function Portfolio() {
+  const pathname = usePathname();
   const [mouseX, setMouseX] = useState(50);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false); // État persistant pour le mode
@@ -109,8 +111,12 @@ export default function Portfolio() {
     };
     syncTheme();
     window.addEventListener("storage", syncTheme);
-    return () => window.removeEventListener("storage", syncTheme);
-  }, []);
+    window.addEventListener("focus", syncTheme);
+    return () => {
+      window.removeEventListener("storage", syncTheme);
+      window.removeEventListener("focus", syncTheme);
+    };
+  }, [pathname]);
 
   // Sauvegarder le thème dans localStorage quand il change (seulement si pas en hover)
   useEffect(() => {
