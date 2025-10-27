@@ -34,7 +34,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = React.use(params);
   const project: Project | undefined = getProjectBySlug(slug);
 
-  // Charger le thème depuis localStorage au démarrage et synchroniser sur changement
+  // Charger le thème depuis localStorage au démarrage, à chaque navigation et synchroniser sur changement
   useEffect(() => {
     const syncTheme = () => {
       const savedTheme =
@@ -48,7 +48,7 @@ export default function ProjectPage({ params }: ProjectPageProps) {
     syncTheme();
     window.addEventListener("storage", syncTheme);
     return () => window.removeEventListener("storage", syncTheme);
-  }, []);
+  }, [slug]);
 
   // Sauvegarder le thème dans localStorage quand on clique sur le toggle
   const toggleTheme = () => {
@@ -104,13 +104,26 @@ export default function ProjectPage({ params }: ProjectPageProps) {
           {/* Toggle Dark Mode */}
           <button
             onClick={toggleTheme}
-            className={`px-6 py-2 rounded-full transition-all duration-700 cursor-pointer hover:scale-110 hover:shadow-lg ${
+            className={`group relative flex items-center justify-center w-14 h-14 rounded-full border-2 transition-all duration-500 cursor-pointer shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-[#5B7AA6] ${
               isDarkMode
-                ? "bg-[#F5F1E8] text-[#0F0F0F] hover:shadow-[#F5F1E8]/50"
-                : "bg-[#2A2A2A] text-[#F5F1E8] hover:shadow-[#2A2A2A]/50"
+                ? "bg-[#F5F1E8] border-[#5B7AA6] text-[#0F0F0F] hover:bg-[#5B7AA6] hover:border-[#F5F1E8] hover:text-white"
+                : "bg-[#2A2A2A] border-[#766B5E] text-[#F5F1E8] hover:bg-[#766B5E] hover:border-[#2A2A2A] hover:text-white"
             }`}
           >
-            {isDarkMode ? "☀️" : "🌙"}
+            <span
+              className="text-3xl transition-transform duration-500 group-hover:rotate-[90deg]"
+              style={{ display: "inline-block" }}
+            >
+              {isDarkMode ? "☀️" : "🌙"}
+            </span>
+            {/* Effet visuel supplémentaire */}
+            <span
+              className={`absolute inset-0 rounded-full pointer-events-none transition-all duration-500 ${
+                isDarkMode
+                  ? "border-2 border-[#5B7AA6] opacity-30"
+                  : "border-2 border-[#766B5E] opacity-30"
+              }`}
+            ></span>
           </button>
         </div>
       </nav>
